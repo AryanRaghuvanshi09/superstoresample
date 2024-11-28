@@ -1,6 +1,6 @@
 Superstore Data Analysis Project
 Introduction
-This project demonstrates the end-to-end process of analyzing the Superstore dataset using AWS services. We leverage AWS Glue, Crawlers, and Data Catalog to organize and prepare the data, Athena for querying, and QuickSight for visualization.
+This project demonstrates the end-to-end process of analyzing the Superstore dataset using AWS services. The workflow includes AWS Glue, Crawlers, and Data Catalog for organizing and preparing data, Athena for querying, and QuickSight for visualization.
 
 Tech Stack
 AWS S3: Data storage for raw and transformed datasets.
@@ -11,35 +11,32 @@ AWS Athena: Serverless SQL queries for data analysis.
 AWS QuickSight: Data visualization and dashboarding.
 Project Workflow
 Data Upload to S3
-
 Upload the Superstore dataset (CSV format) to an S3 bucket (e.g., s3://your-bucket-name/superstore/).
+
 AWS Glue Crawler
+Create a Glue Crawler to scan the dataset in S3 and infer its schema. Configure the Crawler to update the Glue Data Catalog with a new table.
 
-Create a Glue Crawler to scan the dataset in S3 and infer its schema.
-Configure the Crawler to update the Glue Data Catalog with a new table.
 AWS Glue Data Catalog
-
 The Crawler creates a metadata table in the Glue Data Catalog, which Athena can query.
+
 Query with AWS Athena
+Use Athena to query the Superstore data directly from the Glue Data Catalog. Perform various SQL operations for data analysis (e.g., sales by region, profit analysis).
 
-Use Athena to query the Superstore data directly from the Glue Data Catalog.
-Perform various SQL operations for data analysis (e.g., sales by region, profit analysis).
 Visualize with AWS QuickSight
+Connect QuickSight to Athena to create interactive dashboards. Visualize metrics like sales trends, category performance, and regional breakdowns.
 
-Connect QuickSight to Athena to create interactive dashboards.
-Visualize metrics like sales trends, category performance, and regional breakdowns.
 Setup Instructions
-1. Prepare S3 Bucket
+Step 1: Prepare S3 Bucket
 Create an S3 bucket in your AWS account (e.g., superstore-data-analysis).
 Upload the Superstore dataset (e.g., superstore.csv) to a designated folder (e.g., s3://superstore-data-analysis/raw-data/).
-2. Configure AWS Glue Crawler
+Step 2: Configure AWS Glue Crawler
 Navigate to the AWS Glue Console.
 Create a new Crawler:
 Name: superstore-crawler
 Data Source: S3 path (s3://superstore-data-analysis/raw-data/)
 IAM Role: An IAM role with S3 read access and Glue permissions.
 Run the Crawler to populate the Glue Data Catalog.
-3. Query Data with Athena
+Step 3: Query Data with Athena
 Open the Athena Console.
 Select the Glue database created by the Crawler.
 Write SQL queries to analyze the Superstore dataset. Examples:
@@ -54,27 +51,24 @@ FROM superstore_table
 GROUP BY product_name
 ORDER BY total_profit DESC
 LIMIT 5;
-4. Visualize Data in QuickSight
+Step 4: Visualize Data in QuickSight
 Navigate to the AWS QuickSight Console.
-Connect QuickSight to Athena:
-Create a dataset from your Athena table.
-Build dashboards:
-Add visualizations such as bar charts, line graphs, and heatmaps.
-Explore metrics like total sales, category performance, and regional trends.
+Connect QuickSight to Athena and create a dataset from your Athena table.
+Build dashboards with visualizations like bar charts, line graphs, and heatmaps.
 Sample Queries
-Sales by Region
+Sales by Region:
 
 SELECT region, SUM(sales) AS total_sales
 FROM superstore_table
 GROUP BY region;
-Top 10 Customers by Sales
+Top 10 Customers by Sales:
 
 SELECT customer_name, SUM(sales) AS total_sales
 FROM superstore_table
 GROUP BY customer_name
 ORDER BY total_sales DESC
 LIMIT 10;
-Monthly Sales Trend
+Monthly Sales Trend:
 
 SELECT EXTRACT(YEAR FROM order_date) AS year, 
        EXTRACT(MONTH FROM order_date) AS month, 
